@@ -1,5 +1,6 @@
 # CSC385
 Project 2—The Sleeping Teaching Assistant
+
 A university computer science department has a teaching assistant (TA) who
 helps undergraduate students with their programming assignments during
 regular office hours. The TA’s office is rather small and has room for only one
@@ -16,10 +17,11 @@ that coordinates the activities of the TA and the students. Details for this
 assignment are provided below.
 
 The Students and the TA
-Using Pthreads (Section 4.4.1), begin by creating n studentswhere each student
+
+Using Pthreads (Section 4.4.1), begin by creating n students where each student
 will run as a separate thread. The TA will run as a separate thread as well.
 Student threads will alternate between programming for a period of time and
-seeking help fromthe TA. If the TAis available, they will obtain help.Otherwise,
+seeking help from the TA. If the TA is available, they will obtain help.Otherwise,
 they will either sit in a chair in the hallway or, if no chairs are available, will
 resume programming and will seek help at a later time. If a student arrives
 and notices that the TA is sleeping, the student must notify the TA using a
