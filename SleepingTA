@@ -1,1 +1,40 @@
+#include <pthread.h>
+#include <stdio.h>
+#include <stdlib.h>
+#define HALLWAY_CHAIRS 3
+#define TA_OFFICE_CHAIRS 1
+#define STUDENTS 5
 
+int Hallway = HALLWAY_CHAIRS; //Max Occupancy(3 Chairs)
+int TAOffice = TA_OFFICE_CHAIRS; //Max Occupancy(1 Chair)
+int n = STUDENTS; //Student threads(5 Students)
+
+int main() //Ignore main for now
+{
+  
+}
+
+
+//If TAOffice full: Students occupy Hallway Chair
+int Add_Students(int Hallway) {
+  if (TAOffice < n)
+	
+
+}
+
+
+//TAOffice helps Students
+int Help_Students(int TAOffice) {
+	//Wakeup from nap
+
+	if (TAOffice < 1) //If TAOffice is filled
+		//Help Student(1-3 sec delay)
+		TAOffice += 1//Empty TAOffice
+
+	if else (Hallway < 3) //If Hallway is filled
+		int TAOffice -= 1; //Fill TA Office
+		Hallway += 1; //Empty a student from Hallway
+
+	else {
+		//Take a nap (No students waiting)
+	}
