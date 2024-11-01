@@ -1,0 +1,101 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <pthread.h> //threading library
+#include <semaphore.h>
+#include <unistd.h>
+
+#define NUM_CHAIRS 3         // Number of chairs outside TA's office 
+#define NUM_STUDENTS 5       // Number of students in simulation
+
+sem_t ta_available;          // Semaphore to wake the TA if sleeping
+sem_t student_ready;         // Semaphore to signal a student is ready for help
+pthread_mutex_t chair_mutex; // Mutex to protect chair count
+
+int waiting_students = 0;    // Count of students waiting in chairs
+
+void* ta_function(void* arg) {
+    while (1) {
+        // Wait until a student signals that they need help
+        sem_wait(&student_ready);
+
+        // Lock chair count before accessing
+        pthread_mutex_lock(&chair_mutex);
+        if (waiting_students > 0) {
+            // A student is ready; decrease the count of waiting students
+            waiting_students--;
+            printf("TA is helping a student. Students waiting: %d\n", waiting_students);
+            pthread_mutex_unlock(&chair_mutex);
+
+            // Signal that the TA is now available for another student
+            sem_post(&ta_available);
+
+            // Simulate the TA helping the student for a random time
+            sleep(rand() % 3 + 1); // Help duration between 1-3 seconds
+        } else {
+            // No students waiting; release the mutex and nap
+            pthread_mutex_unlock(&chair_mutex);
+            printf("No students waiting. TA is napping.\n");
+        }
+    }
+    return NULL;
+}
+
+void* student_function(void* arg) {
+    int student_id = *(int*)arg;
+    while (1) {
+        // Student is programming (random delay)
+        printf("Student %d is programming.\n", student_id);
+        sleep(rand() % 5 + 1); // Programming duration between 1-5 seconds
+
+        // Lock chair count before accessing
+        pthread_mutex_lock(&chair_mutex);
+        if (waiting_students < NUM_CHAIRS) {
+            // If chairs are available, take a seat and wait for help
+            waiting_students++;
+            printf("Student %d is waiting for the TA. Students waiting: %d\n", student_id, waiting_students);
+            pthread_mutex_unlock(&chair_mutex);
+
+            // Signal to TA that a student is ready and wait for TA to become available
+            sem_post(&student_ready);
+            sem_wait(&ta_available); // Wait for the TA to help
+        } else {
+            // No chairs available; continue programming
+            pthread_mutex_unlock(&chair_mutex);
+            printf("Student %d found no available chairs and will try later.\n", student_id);
+        }
+    }
+    return NULL;
+}
+
+int main() {
+    pthread_t ta_thread;
+    pthread_t students[NUM_STUDENTS];
+    int student_ids[NUM_STUDENTS];
+
+    // Initialize semaphores and mutex
+    sem_init(&ta_available, 0, 1); // TA starts as available
+    sem_init(&student_ready, 0, 0); // No students initially waiting
+    pthread_mutex_init(&chair_mutex, NULL);
+
+    // Create the TA thread
+    pthread_create(&ta_thread, NULL, ta_function, NULL);
+
+    // Create student threads
+    for (int i = 0; i < NUM_STUDENTS; i++) {
+        student_ids[i] = i + 1; // Unique ID for each student
+        pthread_create(&students[i], NULL, student_function, &student_ids[i]);
+    }
+
+    // Wait for all threads to finish (in this simulation, threads run indefinitely)
+    pthread_join(ta_thread, NULL);
+    for (int i = 0; i < NUM_STUDENTS; i++) {
+        pthread_join(students[i], NULL);
+    }
+
+    // Destroy semaphores and mutex
+    sem_destroy(&ta_available);
+    sem_destroy(&student_ready);
+    pthread_mutex_destroy(&chair_mutex);
+
+    return 0;
+}
