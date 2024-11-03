@@ -34,5 +34,5 @@ for a random period of time.
 Coverage of POSIX mutex locks and semaphores is provided in Section 7.3.
 Consult that section for details.
 
-
+**************************************************************
 An online C compiler that supports pthreading can be used to run this code: https://www.jdoodle.com/c-online-compiler
