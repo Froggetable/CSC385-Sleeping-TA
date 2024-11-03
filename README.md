@@ -1,3 +1,4 @@
+**************************************************************
 Project 2—The Sleeping Teaching Assistant
 **************************************************************
 A university computer science department has a teaching assistant (TA) who
@@ -15,6 +16,7 @@ Using POSIX threads, mutex locks, and semaphores, implement a solution
 that coordinates the activities of the TA and the students. Details for this
 assignment are provided below.
 
+**************************************************************
 The Students and the TA
 **************************************************************
 Using Pthreads (Section 4.4.1), begin by creating n studentswhere each student
