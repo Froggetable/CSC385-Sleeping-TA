@@ -1,6 +1,7 @@
 # CSC385
+***************************************************
 Project 2—The Sleeping Teaching Assistant
-
+***************************************************
 A university computer science department has a teaching assistant (TA) who
 helps undergraduate students with their programming assignments during
 regular office hours. The TA’s office is rather small and has room for only one
@@ -16,7 +17,9 @@ Using POSIX threads, mutex locks, and semaphores, implement a solution
 that coordinates the activities of the TA and the students. Details for this
 assignment are provided below.
 
+***************************************************
 The Students and the TA
+***************************************************
 
 Using Pthreads (Section 4.4.1), begin by creating n students where each student
 will run as a separate thread. The TA will run as a separate thread as well.
@@ -34,8 +37,10 @@ the TA providing help to a student—is to have the appropriate threads sleep
 for a random period of time.
 Coverage of POSIX mutex locks and semaphores is provided in Section 7.3.
 Consult that section for details.
+***************************************************
+An online C compiler that supports threading can be used to run the code: https://www.jdoodle.com/c-online-compiler
+***************************************************
 
-Solution:
 # Sleeping-TA-Assignment
 Sleeping Teaching Assistant
 
